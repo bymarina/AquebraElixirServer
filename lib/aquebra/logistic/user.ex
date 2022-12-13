@@ -12,7 +12,7 @@ defmodule Aquebra.Logistic.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:type])
-    |> validate_required([:type])
+    |> cast(attrs, [:type, :firebaseId])
+    |> validate_required([:type, :firebaseId])
   end
 end

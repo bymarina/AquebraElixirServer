@@ -6,7 +6,8 @@ defmodule AquebraWeb.UserControllerTest do
   alias Aquebra.Logistic.User
 
   @create_attrs %{
-    type: "some type"
+    type: "some type",
+    firebaseId: "a firebase id"
   }
   @update_attrs %{
     type: "some updated type"
@@ -21,6 +22,21 @@ defmodule AquebraWeb.UserControllerTest do
     test "lists all users", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
+    end
+  end
+
+  describe "find_by_firebase_id" do
+    test "when valid id, should return User", %{conn: conn} do
+      user = user_fixture(%{firebaseId: "test"})
+      route = Routes.user_path(conn, :find_by_firebase_id, user.firebaseId)
+      conn = get(conn, route)
+      assert %{"firebaseId" => "test", "id" => _} = json_response(conn, 200)["data"]
+    end
+
+    test "when register not found, should return nil", %{conn: conn} do
+      route = Routes.user_path(conn, :find_by_firebase_id, "not existing id")
+      conn = get(conn, route)
+      assert nil = json_response(conn, 200)["data"]
     end
   end
 

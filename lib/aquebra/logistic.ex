@@ -133,6 +133,8 @@ defmodule Aquebra.Logistic do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_by_firebase_id(firebase_id), do: Repo.get_by(User, firebaseId: firebase_id)
+
   @doc """
   Creates a user.
 

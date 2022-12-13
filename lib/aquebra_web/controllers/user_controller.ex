@@ -25,6 +25,11 @@ defmodule AquebraWeb.UserController do
     render(conn, "show.json", user: user)
   end
 
+  def find_by_firebase_id(conn, %{"firebase_id" => firebase_id}) do
+    user = Logistic.get_user_by_firebase_id(firebase_id)
+    render(conn, "show.json", user: user)
+  end
+
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Logistic.get_user!(id)
 
