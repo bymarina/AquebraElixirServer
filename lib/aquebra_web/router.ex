@@ -29,6 +29,7 @@ defmodule AquebraWeb.Router do
       resources "/receiving_entity", ReceivingEntityController
       resources "/town_hall_user", TownHallUserController
       resources "/user", UserController
+      get("/user/firebase/:firebase_id", UserController, :find_by_firebase_id)
       resources "/volunteer", VolunteerController
       resources "/page", PageController
     end

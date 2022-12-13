@@ -26,7 +26,8 @@ defmodule Aquebra.LogisticFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        type: "some type"
+        type: "some type",
+        firebaseId: "FAKE ID"
       })
       |> Aquebra.Logistic.create_user()
 
