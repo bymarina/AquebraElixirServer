@@ -7,7 +7,7 @@ defmodule AquebraWeb.AddressView do
   end
 
   def render("show.json", %{address: address}) do
-    %{data: render_one(address, AddressView, "address.json")}
+    %{address: render_one(address, AddressView, "address.json")}
   end
 
   def render("address.json", %{address: address}) do

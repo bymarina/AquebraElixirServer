@@ -7,7 +7,7 @@ defmodule AquebraWeb.DocumentView do
   end
 
   def render("show.json", %{document: document}) do
-    %{data: render_one(document, DocumentView, "document.json")}
+    %{document: render_one(document, DocumentView, "document.json")}
   end
 
   def render("document.json", %{document: document}) do

@@ -7,7 +7,7 @@ defmodule AquebraWeb.VolunteerView do
   end
 
   def render("show.json", %{volunteer: volunteer}) do
-    %{data: render_one(volunteer, VolunteerView, "volunteer.json")}
+    %{volunteer: render_one(volunteer, VolunteerView, "volunteer.json")}
   end
 
   def render("volunteer.json", %{volunteer: volunteer}) do
