@@ -65,7 +65,9 @@ config :aquebra, AquebraWeb.Endpoint,
   ]
 
 # Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+config :logger, :console,
+       format: "[$metadata] [$level] $message\n",
+       metadata: [:mfa]
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.

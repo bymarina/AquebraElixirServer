@@ -8,8 +8,8 @@ defmodule Aquebra.Logistic.Volunteer do
     field :vehicleCapacity, :integer
     field :userId, :id
     field :documentNumberId, :id
-    field :OriginAddressId, :id
-    field :DestinyAddressId, :id
+    field :originAddressId, :id
+    field :destinyAddressId, :id
 
     timestamps()
   end

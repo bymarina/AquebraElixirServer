@@ -79,6 +79,8 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/plug_cowboy" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/ecto_sql" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/phoenix" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/math" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/geocalc" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -139,6 +141,23 @@
     <orderEntry type="library" name="kadabra" level="project" />
     <orderEntry type="library" name="x509" level="project" />
     <orderEntry type="library" name="phoenix_template" level="project" />
+    <orderEntry type="module-library">
+      <library name="Elixir at C:/Program Files (x86)/Elixir">
+        <CLASSES />
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="math" level="project" />
+    <orderEntry type="library" name="credo" level="project" />
+    <orderEntry type="library" name="inch_ex" level="project" />
+    <orderEntry type="library" name="elixir" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+    <orderEntry type="library" name="geocalc" level="project" />
+    <orderEntry type="library" name="benchfella" level="project" />
+    <orderEntry type="library" name="coverex" level="project" />
+    <orderEntry type="library" name="mix_test_watch" level="project" />
+    <orderEntry type="library" name="ex_maps" level="project" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">
