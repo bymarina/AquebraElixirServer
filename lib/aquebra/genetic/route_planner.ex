@@ -15,8 +15,7 @@ defmodule RoutePlanner do
       {-25.385244237604923, -49.232630444120716},
       {-25.417648384306904, -49.24295494493716},
       {-25.510155174862906, -49.294898077339646},
-      {-25.43546539567159, -49.272521031800764},
-      {-25.401236870700316, -49.24885639467048}
+      {-25.43546539567159, -49.272521031800764}
     ]
 
 #    start_point = {-25.479718797938826, -49.28659032337815}
@@ -26,7 +25,7 @@ defmodule RoutePlanner do
   end
 
   def solve(collectPoints, deliverPoints, start_point, end_point) do
-    population_size = 50
+    population_size = 5
     max_generations = 100
     mutation_rate = 0.02
 
@@ -77,8 +76,7 @@ defmodule RoutePlanner do
   defp get_elite(population, elite_size) do
     population
     |> Enum.sort_by(&RouteCalculator.distance/1)
-    |> Enum.take(elite_size) #talvez queira o elemento 0, se tiver ordenado asc
-#    |> IO.inspect()
+    |> Enum.take(elite_size)
   end
 
   defp get_best_route(population) do
@@ -127,7 +125,7 @@ defmodule RoutePlanner do
 
     [startPoint, collectPoint_parent, deliverPoint_parent, endPoint] = genes
 
-    Enum.each(2..(length(genes) - 1), fn i ->
+    Enum.each(1..2, fn i ->
       if :random.uniform() < planner.mutation_rate do
         {selected_genes, remaining_genes} = Enum.split(genes, i)
 
@@ -142,7 +140,6 @@ defmodule RoutePlanner do
         mutated_genes = [startPoint, collectPoint, deliverPoint, endPoint]
 
         genes = mutated_genes
-        |> IO.inspect()
       end
     end)
 
