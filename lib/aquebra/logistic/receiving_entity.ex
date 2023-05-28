@@ -8,7 +8,7 @@ defmodule Aquebra.Logistic.ReceivingEntity do
     field :name, :string
     field :userId, :id
     field :documentNumberId, :id
-    field :address, :id
+    field :addressId, :id
 
     timestamps()
   end

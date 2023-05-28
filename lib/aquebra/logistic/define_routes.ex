@@ -3,43 +3,58 @@ defmodule Aquebra.Logistic.DefineRoutes do
   alias Aquebra.Logistic
   alias Aquebra.Logistic.Volunteer
   alias Aquebra.Logistic.Address
+  alias Aquebra.Logistic.ReceivingEntity
+  alias Aquebra.Logistic.DonorEntity
   alias RoutePlanner
   alias RouteCalculator
 
-  def getBestRoutes do
-    volunteers = Logistic.list_volunteers()
+  def get_Best_Routes do
+    collectPoints = get_Donor_Entities_Addresses()
+    deliverPoints = get_Receiving_Entities_Addresses()
 
-    Enum.each(volunteers, fn volunteer ->
+    Logistic.list_volunteers()
+    |> Enum.each(fn volunteer ->
       id = volunteer.id
       origin = volunteer.originAddressId
       destiny = volunteer.destinyAddressId
       %{id: id, origin: origin, destiny: destiny}
-      #      |> IO.inspect()
-      #      |> Map.get(:origin)
-      #      |> IO.inspect()
 
-      bestRoute = getVolunteerBestRoute(origin, destiny)
+      bestRoute = get_Volunteer_Best_Route(origin, destiny, collectPoints, deliverPoints)
 
       Logger.info(
-        "Volunteer: #{id}, Best Route: #{inspect(bestRoute.route)}, Distance: #{RouteCalculator.distance(bestRoute)}"
+        "Volunteer: #{id}, Best Route: #{inspect(bestRoute.route)}, Distance: #{RouteCalculator.distance(bestRoute)}, Extra route distance: #{get_extra_distance_in_route(bestRoute)}"
       )
 
-      # Calcular a distância que ja seria realizada, para fazer o delta do adicional
     end)
   end
 
-  defp getVolunteerBestRoute(origin, destiny) do
-    originCoordinate = getAddressCoordinates(origin)
-    destinyCoordinate = getAddressCoordinates(destiny)
-    RoutePlanner.execute(originCoordinate, destinyCoordinate)
+  defp get_Volunteer_Best_Route(origin, destiny, collectPoints, deliverPoints) do
+    originCoordinate = get_Address_Coordinates(origin)
+    destinyCoordinate = get_Address_Coordinates(destiny)
+    RoutePlanner.execute(originCoordinate, destinyCoordinate, collectPoints, deliverPoints)
   end
 
-  defp getAddressCoordinates(addressId) do
+  defp get_Donor_Entities_Addresses() do
+    Logistic.list_donorentities()
+    # verificar como deixar os dados aqui mais secretos (?)
+    |> Enum.map(fn donor_entity ->
+      get_Address_Coordinates(donor_entity.addressId)
+    end)
+  end
+
+  defp get_Receiving_Entities_Addresses() do
+    Logistic.list_receivingentities()
+    |> Enum.map(fn receiving_entity ->
+      get_Address_Coordinates(receiving_entity.addressId)
+    end)
+  end
+
+  defp get_Address_Coordinates(addressId) do
     address = Logistic.get_address!(addressId)
-    coordinate = transformStringCoordinatesInTuple(address.coordinates)
+    coordinate = transform_String_Coordinates_In_Tuple(address.coordinates)
   end
 
-  defp transformStringCoordinatesInTuple(string_coordinate) do
+  defp transform_String_Coordinates_In_Tuple(string_coordinate) do
     [lat, lon] =
       string_coordinate
       |> String.split(", ")
@@ -58,5 +73,14 @@ defmodule Aquebra.Logistic.DefineRoutes do
         Logger.critical(err)
         raise(err)
     end
+  end
+
+  defp get_extra_distance_in_route(route) do
+    [startPoint, collectPoint, deliverPoint, endPoint] = route.route
+
+    usual_distance = RouteCalculator.calculate_distance(startPoint, endPoint)
+    total_distance = RouteCalculator.distance(route)
+
+    total_distance - usual_distance
   end
 end

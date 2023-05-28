@@ -7,8 +7,8 @@ defmodule AquebraWeb.ReceivingEntityController do
   action_fallback AquebraWeb.FallbackController
 
   def index(conn, _params) do
-    receivingentities = Logistic.list_receivingentities()
-    render(conn, "index.json", receivingentities: receivingentities)
+    receiving_entities = Logistic.list_receivingentities()
+    render(conn, "index.json", receivingentities: receiving_entities)
   end
 
   def create(conn, %{"receiving_entity" => receiving_entity_params}) do

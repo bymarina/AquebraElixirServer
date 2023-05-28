@@ -12,7 +12,7 @@ defmodule Aquebra.Logistic.NeededDonation do
 
   def changeset(needed_donation, attrs) do
     needed_donation
-    |> cast(attrs, [:type, :quantity, :day])
-    |> validate_required([:type, :quantity, :day])
+    |> cast(attrs, [:type, :quantity, :day, :receivingEntityId])
+    |> validate_required([:type, :quantity, :day, :receivingEntityId])
   end
 end

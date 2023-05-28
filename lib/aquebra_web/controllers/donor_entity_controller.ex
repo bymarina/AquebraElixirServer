@@ -7,8 +7,8 @@ defmodule AquebraWeb.DonorEntityController do
   action_fallback AquebraWeb.FallbackController
 
   def index(conn, _params) do
-    donorentities = Logistic.list_donorentities()
-    render(conn, "index.json", donorentities: donorentities)
+    donor_entities = Logistic.list_donorentities()
+    render(conn, "index.json", donorentities: donor_entities)
   end
 
   def create(conn, %{"donor_entity" => donor_entity_params}) do
