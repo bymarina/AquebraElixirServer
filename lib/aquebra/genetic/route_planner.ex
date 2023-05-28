@@ -2,7 +2,6 @@ defmodule RoutePlanner do
   alias Aquebra.Genetic.Route
 
   def execute(start_point, end_point, collectPoints, deliverPoints) do
-
     solve(collectPoints, deliverPoints, start_point, end_point)
   end
 
@@ -30,7 +29,7 @@ defmodule RoutePlanner do
 
     best_route = get_best_route(best_population)
     IO.puts("Final Best Route: #{inspect(best_route.route)}")
-    #IO.puts("Best Route Distance: #{inspect(best_route.fitness)}")
+    # IO.puts("Best Route Distance: #{inspect(best_route.fitness)}")
     best_route
   end
 
@@ -44,9 +43,9 @@ defmodule RoutePlanner do
     population = fitness(population)
     best_route = Enum.at(population, 0)
 
-#    IO.puts(
-#     "[#{best_route.fitness}] Generation: #{generation}, Best Route Distance: #{RouteCalculator.distance(best_route)}"
-#    )
+    #    IO.puts(
+    #     "[#{best_route.fitness}] Generation: #{generation}, Best Route Distance: #{RouteCalculator.distance(best_route)}"
+    #    )
 
     [selected_parents, leftover_parents] = select_by_elite(population, planner)
     children = crossover_population(selected_parents, planner)

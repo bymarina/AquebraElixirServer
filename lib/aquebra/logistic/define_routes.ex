@@ -24,7 +24,6 @@ defmodule Aquebra.Logistic.DefineRoutes do
       Logger.info(
         "Volunteer: #{id}, Best Route: #{inspect(bestRoute.route)}, Distance: #{RouteCalculator.distance(bestRoute)}, Extra route distance: #{get_extra_distance_in_route(bestRoute)}"
       )
-
     end)
   end
 

@@ -4,7 +4,7 @@ defmodule Aquebra.Logistic.DonationProduct do
 
   schema "donationproducts" do
     field :day, :string
-    field :quantity, :integer
+    field :quantity, :float
     field :type, :string
 
     timestamps()

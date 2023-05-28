@@ -22,21 +22,18 @@ defmodule Aquebra.Logistic.DonationMatch do
     needed_donations = Logistic.list_neededdonations()
     donation_products = Logistic.list_donationproducts()
 
-    #se der match em tipo de produto e donation_product tem pelo menos a quantidade necessária do alimento
-    #com donation_product_id vai pra donorentitydonation e pega o donorEntityId
-    #pega receivingEntityId de needed_donations
-    #salva o match
+    # se der match em tipo de produto e donation_product tem pelo menos a quantidade necessária do alimento
+    # com donation_product_id vai pra donorentitydonation e pega o donorEntityId
+    # pega receivingEntityId de needed_donations
+    # salva o match
 
     Enum.each(donation_products, fn donated_product ->
-      if donated_product.type  do
-
+      if donated_product.type do
       end
     end)
 
-    #vamos simular uma redução de estoque?
-    #vamos considerar que sempre temos o estoque cheio?
-    #vamos simular um dia completo de entregas? se sim vamos precisar contabilizar o alimento a cada voluntário 
-
+    # vamos simular uma redução de estoque?
+    # vamos considerar que sempre temos o estoque cheio?
+    # vamos simular um dia completo de entregas? se sim vamos precisar contabilizar o alimento a cada voluntário 
   end
-
 end

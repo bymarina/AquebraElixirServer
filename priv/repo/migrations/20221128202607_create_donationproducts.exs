@@ -4,7 +4,7 @@ defmodule Aquebra.Repo.Migrations.CreateDonationproducts do
   def change do
     create table(:donationproducts) do
       add :type, :string
-      add :quantity, :integer
+      add :quantity, :float
       add :day, :string
 
       timestamps()

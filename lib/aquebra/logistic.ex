@@ -968,6 +968,9 @@ defmodule Aquebra.Logistic do
     DonorEntityDonation.changeset(donor_entity_donation, attrs)
   end
 
+  def get_entity_id_from_donor_entity_donation_by_donation_id(donation_Id),
+    do: Repo.get_by(DonorEntityDonation, donationId: donation_Id)
+
   alias Aquebra.Logistic.DonationMatch
 
   @doc """
@@ -1068,12 +1071,12 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Returns the list of stocks.
-
+  
   ## Examples
-
+  
       iex> list_stocks()
       [%Stock{}, ...]
-
+  
   """
   def list_stocks do
     Repo.all(Stock)
@@ -1081,31 +1084,31 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Gets a single stock.
-
+  
   Raises `Ecto.NoResultsError` if the Stock does not exist.
-
+  
   ## Examples
-
+  
       iex> get_stock!(123)
       %Stock{}
-
+  
       iex> get_stock!(456)
       ** (Ecto.NoResultsError)
-
+  
   """
   def get_stock!(id), do: Repo.get!(Stock, id)
 
   @doc """
   Creates a stock.
-
+  
   ## Examples
-
+  
       iex> create_stock(%{field: value})
       {:ok, %Stock{}}
-
+  
       iex> create_stock(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def create_stock(attrs \\ %{}) do
     %Stock{}
@@ -1115,15 +1118,15 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Updates a stock.
-
+  
   ## Examples
-
+  
       iex> update_stock(stock, %{field: new_value})
       {:ok, %Stock{}}
-
+  
       iex> update_stock(stock, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def update_stock(%Stock{} = stock, attrs) do
     stock
@@ -1133,15 +1136,15 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Deletes a stock.
-
+  
   ## Examples
-
+  
       iex> delete_stock(stock)
       {:ok, %Stock{}}
-
+  
       iex> delete_stock(stock)
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def delete_stock(%Stock{} = stock) do
     Repo.delete(stock)
@@ -1149,12 +1152,12 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking stock changes.
-
+  
   ## Examples
-
+  
       iex> change_stock(stock)
       %Ecto.Changeset{data: %Stock{}}
-
+  
   """
   def change_stock(%Stock{} = stock, attrs \\ %{}) do
     Stock.changeset(stock, attrs)
