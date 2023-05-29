@@ -1,4 +1,5 @@
 defmodule Aquebra.Logistic.Stock do
+  require Logger
   use Ecto.Schema
   import Ecto.Changeset
   alias Aquebra.Logistic
@@ -38,4 +39,20 @@ defmodule Aquebra.Logistic.Stock do
 
   def find_donation_entity_id(donation_id),
     do: Logistic.get_entity_id_from_donor_entity_donation_by_donation_id(donation_id).donorEntityId
+
+  def remove_quantity_from_stock(donation_id, quantity_to_remove) do
+    stock = Logistic.get_stock!(donation_id)
+
+    if quantity_to_remove <= stock.quantity do
+      new_quantity = stock.quantity - quantity_to_remove
+      |> IO.inspect
+      stock_params = %{type: stock.type, quantity: new_quantity, donorEntityId: stock.donorEntityId}
+      Logistic.update_stock(stock, stock_params)
+      else
+        Logger.info(
+          "Failed to update the donation id: #{donation_id} with the new quantity #{inspect(stock.quantity - quantity_to_remove)}"
+        )
+    end
+
+  end
 end
