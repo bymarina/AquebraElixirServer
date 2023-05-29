@@ -9,14 +9,14 @@ defmodule Aquebra.Logistic.DefineRoutes do
   alias RouteCalculator
 
   def get_Best_Routes do
-    collectPoints = get_Donor_Entities_Addresses()
-    deliverPoints = get_Receiving_Entities_Addresses()
 
     Logistic.list_volunteers()
     |> Enum.each(fn volunteer ->
       id = volunteer.id
-      origin = volunteer.originAddressId
-      destiny = volunteer.destinyAddressId
+      origin = get_Address_Coordinates(volunteer.originAddressId)
+      destiny = get_Address_Coordinates(volunteer.destinyAddressId)
+      collectPoints = get_Donor_Entities_Addresses(origin)
+      deliverPoints = get_Receiving_Entities_Addresses(destiny)
       %{id: id, origin: origin, destiny: destiny}
 
       bestRoute = get_Volunteer_Best_Route(origin, destiny, collectPoints, deliverPoints)
@@ -28,23 +28,36 @@ defmodule Aquebra.Logistic.DefineRoutes do
   end
 
   defp get_Volunteer_Best_Route(origin, destiny, collectPoints, deliverPoints) do
-    originCoordinate = get_Address_Coordinates(origin)
-    destinyCoordinate = get_Address_Coordinates(destiny)
-    RoutePlanner.execute(originCoordinate, destinyCoordinate, collectPoints, deliverPoints)
+    RoutePlanner.execute(origin, destiny, collectPoints, deliverPoints)
   end
 
-  defp get_Donor_Entities_Addresses() do
+  defp get_Donor_Entities_Addresses(origin) do
     Logistic.list_donorentities()
-    # verificar como deixar os dados aqui mais secretos (?)
     |> Enum.map(fn donor_entity ->
       get_Address_Coordinates(donor_entity.addressId)
     end)
+    |> get_nearest_points(origin, 10)
   end
 
-  defp get_Receiving_Entities_Addresses() do
+  defp get_Receiving_Entities_Addresses(destiny) do
     Logistic.list_receivingentities()
     |> Enum.map(fn receiving_entity ->
       get_Address_Coordinates(receiving_entity.addressId)
+    end)
+    |> get_nearest_points(destiny, 5)
+  end
+
+  defp get_nearest_points(end_point_list, start_point, points_quantity) do
+    end_point_list
+    |> Enum.map(fn end_point ->
+      RouteCalculator.calculate_distance(start_point, end_point)
+    end)
+    |> Enum.with_index()
+    |> Enum.sort(:asc)
+    |> Enum.take(points_quantity)
+    |> Enum.map(fn point ->
+      {distance_calculated, index} = point
+      Enum.at(end_point_list, index)
     end)
   end
 
