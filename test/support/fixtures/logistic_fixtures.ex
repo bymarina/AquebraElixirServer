@@ -186,4 +186,34 @@ defmodule Aquebra.LogisticFixtures do
 
     stock
   end
+
+  @doc """
+  Generate a match.
+  """
+  def match_fixture(attrs \\ %{}) do
+    {:ok, match} =
+      attrs
+      |> Enum.into(%{
+        quantity: 120.5,
+        type: "some type"
+      })
+      |> Aquebra.Logistic.create_match()
+
+    match
+  end
+
+  @doc """
+  Generate a donation.
+  """
+  def donation_fixture(attrs \\ %{}) do
+    {:ok, donation} =
+      attrs
+      |> Enum.into(%{
+        quantity: 120.5,
+        type: "some type"
+      })
+      |> Aquebra.Logistic.create_donation()
+
+    donation
+  end
 end

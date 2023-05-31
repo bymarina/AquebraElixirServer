@@ -66,6 +66,7 @@ config :aquebra, AquebraWeb.Endpoint,
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console,
+  level: :info,
   format: "[$metadata] [$level] $message\n",
   metadata: [:mfa]
 

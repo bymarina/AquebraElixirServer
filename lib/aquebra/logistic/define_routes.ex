@@ -12,19 +12,23 @@ defmodule Aquebra.Logistic.DefineRoutes do
 
     Logistic.list_volunteers()
     |> Enum.each(fn volunteer ->
-      id = volunteer.id
-      origin = get_Address_Coordinates(volunteer.originAddressId)
-      destiny = get_Address_Coordinates(volunteer.destinyAddressId)
-      collectPoints = get_Donor_Entities_Addresses(origin)
-      deliverPoints = get_Receiving_Entities_Addresses(destiny)
-      %{id: id, origin: origin, destiny: destiny}
-
+      #%{id: id, origin: origin, destiny: destiny}
+      {id, origin, destiny, collectPoints, deliverPoints} = assemble_volunteer_data(volunteer)
       bestRoute = get_Volunteer_Best_Route(origin, destiny, collectPoints, deliverPoints)
 
       Logger.info(
-        "Volunteer: #{id}, Best Route: #{inspect(bestRoute.route)}, Distance: #{RouteCalculator.distance(bestRoute)}, Extra route distance: #{get_extra_distance_in_route(bestRoute)}"
+        "Volunteer: #{id}, Best Route: #{inspect(bestRoute.route)}, Distance: #{RouteCalculator.distance(bestRoute)}, Extra route distance: #{get_extra_distance_in_route(bestRoute)}\n"
       )
     end)
+  end
+
+  defp assemble_volunteer_data(volunteer) do
+    id = volunteer.id
+    origin = get_Address_Coordinates(volunteer.originAddressId)
+    destiny = get_Address_Coordinates(volunteer.destinyAddressId)
+    collectPoints = get_Donor_Entities_Addresses(origin)
+    deliverPoints = get_Receiving_Entities_Addresses(destiny)
+    {id, origin, destiny, collectPoints, deliverPoints}
   end
 
   defp get_Volunteer_Best_Route(origin, destiny, collectPoints, deliverPoints) do
@@ -36,7 +40,7 @@ defmodule Aquebra.Logistic.DefineRoutes do
     |> Enum.map(fn donor_entity ->
       get_Address_Coordinates(donor_entity.addressId)
     end)
-    |> get_nearest_points(origin, 10)
+    |> get_nearest_points(origin, 26)
   end
 
   defp get_Receiving_Entities_Addresses(destiny) do
