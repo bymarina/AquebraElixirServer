@@ -5,7 +5,16 @@ defmodule Aquebra.Logistic.Match do
   alias Aquebra.Logistic.Stock
   alias Aquebra.Logistic.NeededDonation
 
-  @required_fields [:quantity, :type, :donor_entity_id, :receiving_entity_id, :volunteer_id, :stock_id, :url]
+  @required_fields [
+    :quantity,
+    :type,
+    :donor_entity_id,
+    :receiving_entity_id,
+    :volunteer_id,
+    :stock_id,
+    :url,
+    :extra_distance
+  ]
   @optional_fields []
 
   schema "matches" do
@@ -16,6 +25,7 @@ defmodule Aquebra.Logistic.Match do
     field :volunteer_id, :id
     field :stock_id, :id
     field :url, :string
+    field :extra_distance, :float
 
     timestamps()
   end
@@ -27,27 +37,7 @@ defmodule Aquebra.Logistic.Match do
     |> validate_required(@required_fields)
   end
 
-  def create_matches_for_volunteer(volunteer_id, donor_entity_id) do
-    Logistic.get_stock_by_entity_id(donor_entity_id)
-    |> Enum.each(fn stock ->
-      demand = find_match_demand_by_type(stock)
-
-      if demand != nil do
-        match_params = %{
-          type: stock.type,
-          quantity: stock.quantity,
-          donor_entity_id: donor_entity_id,
-          receiving_entity_id: demand.receivingEntityId,
-          volunteer_id: volunteer_id,
-          stock_id: stock.id
-        }
-
-        Logistic.create_match(match_params)
-      end
-    end)
-  end
-
-  def create_match_from_route(volunteer_id, match, quantity, url) do
+  def create_match_from_route(volunteer_id, match, quantity, url, extra_distance) do
     type = match.collect_point.donation_type
     donor_entity_id = match.collect_point.entity_id
     receiving_entity_id = match.deliver_point.entity_id
@@ -60,7 +50,8 @@ defmodule Aquebra.Logistic.Match do
       receiving_entity_id: receiving_entity_id,
       volunteer_id: volunteer_id,
       stock_id: stock_id,
-      url: url
+      url: url,
+      extra_distance: extra_distance
     }
 
     Logistic.create_match(match_params)

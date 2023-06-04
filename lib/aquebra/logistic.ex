@@ -426,7 +426,7 @@ defmodule Aquebra.Logistic do
     query =
       from m in "matches",
         where: m.volunteer_id == ^volunteer_id,
-        select: [:id, :type, :quantity, :donor_entity_id, :receiving_entity_id, :volunteer_id, :stock_id]
+        select: [:id, :type, :quantity, :donor_entity_id, :receiving_entity_id, :volunteer_id, :stock_id, :extra_distance]
 
     Repo.all(query)
   end
@@ -571,6 +571,14 @@ defmodule Aquebra.Logistic do
 
   def delete_volunteer_evaluation(%Volunteer_evaluation{} = volunteer_evaluation) do
     Repo.delete(volunteer_evaluation)
+  end
+
+  def delete_all_volunteer_evaluation() do
+    query =
+      from ve in "volunteers_evaluation",
+        select: [:id]
+
+    Repo.delete_all(query)
   end
 
   def change_volunteer_evaluation(%Volunteer_evaluation{} = volunteer_evaluation, attrs \\ %{}) do

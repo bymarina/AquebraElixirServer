@@ -30,7 +30,8 @@ defmodule Aquebra.Logistic.DefineRoutes do
     bestRoute = get_Volunteer_Best_Route(origin, destiny, collectPoints, deliverPoints)
     log_route_results(bestRoute, id)
     url = assemble_route_url(bestRoute)
-    Volunteer.apply_volunteer_match(bestRoute, volunteer, url)
+    extra_distance = get_extra_distance_in_route(bestRoute)
+    Volunteer.apply_volunteer_match(bestRoute, volunteer, url, extra_distance)
   end
 
   defp verify_if_possible_to_get_more_routes(volunteer) do
@@ -45,7 +46,8 @@ defmodule Aquebra.Logistic.DefineRoutes do
     bestRoute = get_Volunteer_Best_Route(origin, destiny, collectPoints, deliverPoints)
     log_route_results(bestRoute, id)
     url = assemble_route_url(bestRoute)
-    Volunteer.apply_volunteer_match(bestRoute, volunteer, url)
+    extra_distance = get_extra_distance_in_route(bestRoute)
+    Volunteer.apply_volunteer_match(bestRoute, volunteer, url, extra_distance)
   end
 
   defp should_get_another_route(volunteer) do

@@ -27,17 +27,14 @@ defmodule Aquebra.Logistic.Donation_evaluation do
       match_ids_list = get_match_ids(donor_entity.id)
       donor_entity_id = donor_entity.id
 
-      evaluation_params =
-        %{
-          total_available: total_available,
-          total_donated: total_donated,
-          match_ids: match_ids_list,
-          donor_entity_id: donor_entity_id
-        }
-        |> IO.inspect()
+      evaluation_params = %{
+        total_available: total_available,
+        total_donated: total_donated,
+        match_ids: match_ids_list,
+        donor_entity_id: donor_entity_id
+      }
 
       Logistic.create_donation_evaluation(evaluation_params)
-      |> IO.inspect()
     end)
   end
 
@@ -58,13 +55,10 @@ defmodule Aquebra.Logistic.Donation_evaluation do
 
   defp get_match_ids(entity_id) do
     Logistic.get_match_by_donor_entity_id(entity_id)
-    |> IO.inspect()
     |> Enum.map(fn match ->
       match.stock_id
     end)
-    |> IO.inspect()
     |> Enum.join(",")
-    |> IO.inspect()
   end
 
   def clean_donation_evaluation() do

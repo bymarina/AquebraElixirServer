@@ -23,19 +23,19 @@ defmodule Aquebra.Logistic.Volunteer do
     |> validate_required([:name, :vehicleCapacity, :picture])
   end
 
-  def apply_volunteer_match(match, volunteer, url) do
+  def apply_volunteer_match(match, volunteer, url, extra_distance) do
     vehicle_capacity = volunteer.vehicleCapacity
     match_quantity = match.collect_point.donation_quantity
     capacity_left = vehicle_capacity - get_current_volunteer_vehicle_fill(volunteer)
 
     if does_donation_fit_vehicle_completely(match_quantity, capacity_left) do
-      Match.create_match_from_route(volunteer.id, match, match_quantity, url)
+      Match.create_match_from_route(volunteer.id, match, match_quantity, url, extra_distance)
       vehicle_capacity = capacity_left - match_quantity
       match_quantity = 0
     end
 
     if does_donation_fit_vehicle_partially(match_quantity, capacity_left) do
-      Match.create_match_from_route(volunteer.id, match, capacity_left, url)
+      Match.create_match_from_route(volunteer.id, match, capacity_left, url, extra_distance)
       capacity_left = 0
     end
   end

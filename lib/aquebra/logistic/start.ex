@@ -4,11 +4,12 @@ defmodule Aquebra.Logistic.Start do
   alias Aquebra.Logistic.DefineRoutes
   alias Aquebra.Logistic.Demand_evaluation
   alias Aquebra.Logistic.Donation_evaluation
+  alias Aquebra.Logistic.Volunteer_evaluation
 
   def start_algorithm() do
-    #    prepare_match_table()
-    #    prepare_stock_table()
-    #    find_routes()
+    prepare_match_table()
+    prepare_stock_table()
+    find_routes()
     evaluate_results()
   end
 
@@ -28,6 +29,7 @@ defmodule Aquebra.Logistic.Start do
   defp evaluate_results() do
     demand_evaluation()
     donation_evaluation()
+    volunteer_evaluation()
   end
 
   defp demand_evaluation() do
@@ -38,5 +40,10 @@ defmodule Aquebra.Logistic.Start do
   defp donation_evaluation() do
     Donation_evaluation.clean_donation_evaluation()
     Donation_evaluation.evaluate_donation_service()
+  end
+
+  defp volunteer_evaluation() do
+    Volunteer_evaluation.clean_volunteer_evaluation()
+    Volunteer_evaluation.evaluate_volunteer_service()
   end
 end
