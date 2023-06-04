@@ -29,8 +29,6 @@ defmodule Aquebra.Logistic.DefineRoutes do
     id = volunteer.id
     origin = get_Address_Coordinates(volunteer.originAddressId)
     destiny = get_Address_Coordinates(volunteer.destinyAddressId)
-    # collectPoints = get_Donor_Entities_Coordinates(origin, id)
-    # deliverPoints = get_Receiving_Entities_Coordinates(destiny, id)
     collectPoints = get_collect_points_from_stock()
     deliverPoints = get_deliver_points_from_needed_donation()
     {id, origin, destiny, collectPoints, deliverPoints}
@@ -68,55 +66,8 @@ defmodule Aquebra.Logistic.DefineRoutes do
     end)
   end
 
-  #  defp assemble_volunteer_data(volunteer) do
-  #    id = volunteer.id
-  #    origin = get_Address_Coordinates(volunteer.originAddressId)
-  #    destiny = get_Address_Coordinates(volunteer.destinyAddressId)
-  #    collectPoints = get_Donor_Entities_Coordinates(origin, id)
-  #    |> IO.inspect
-  #    deliverPoints = get_Receiving_Entities_Coordinates(destiny, id)
-  #    |> IO.inspect
-  #    {id, origin, destiny, collectPoints, deliverPoints}
-  #  end
-
   defp get_Volunteer_Best_Route(origin, destiny, collectPoints, deliverPoints) do
     RoutePlanner.execute(origin, destiny, collectPoints, deliverPoints)
-  end
-
-  defp get_Donor_Entities_Coordinates(origin, volunteer_id) do
-    Logistic.list_donorentities()
-    |> Enum.map(fn donor_entity ->
-      {donor_entity, get_Address_Coordinates(donor_entity.addressId)}
-    end)
-    |> get_nearest_points(origin, 10)
-    |> create_volunteer_matches(volunteer_id)
-
-    get_closer_donor_entities_with_matches(volunteer_id)
-  end
-
-  defp get_closer_donor_entities_with_matches(volunteer_id) do
-    Match.find_match_by_volunteer_id(volunteer_id)
-    |> Enum.map(fn match ->
-      Logistic.get_donor_entity!(match.donor_entity_id)
-    end)
-    |> Enum.map(fn donor_entity ->
-      get_Address_Coordinates(donor_entity.addressId)
-    end)
-    |> Enum.uniq()
-  end
-
-  defp get_receiving_entities_for_donor_entity_match(match) do
-    Logistic.get_match_by_donor_entity_id(match.donor_entity_id)
-  end
-
-  defp create_volunteer_matches(donor_entity_list, volunteer_id) do
-    donor_entity_list
-    |> Enum.each(fn donor ->
-      {donor_entity, coordinate} = donor
-      Match.create_matches_for_volunteer(volunteer_id, donor_entity.id)
-    end)
-
-    donor_entity_list
   end
 
   defp get_coordinate_field(entity_tuples) do
@@ -126,32 +77,6 @@ defmodule Aquebra.Logistic.DefineRoutes do
       coordinate
     end)
   end
-
-  defp get_Receiving_Entities_Coordinates(destiny, donor_entity_id) do
-    Logistic.get_match_by_donor_entity_id(donor_entity_id)
-    |> Enum.map(fn match ->
-      Logistic.get_receiving_entity!(match.receiving_entity_id)
-    end)
-    |> Enum.map(fn receiving_entity ->
-      {receiving_entity, get_Address_Coordinates(receiving_entity.addressId)}
-    end)
-    |> Enum.uniq()
-    |> get_nearest_points(destiny, 5)
-    |> get_coordinate_field()
-  end
-
-  #  defp get_Receiving_Entities_Coordinates(destiny, volunteer_id) do
-  #    Match.find_match_by_volunteer_id(volunteer_id)
-  #    |> Enum.map(fn match ->
-  #      Logistic.get_receiving_entity!(match.receiving_entity_id)
-  #    end)
-  #    |> Enum.map(fn receiving_entity ->
-  #      {receiving_entity, get_Address_Coordinates(receiving_entity.addressId)}
-  #    end)
-  #    |> Enum.uniq()
-  #    |> get_nearest_points(destiny, 5)
-  #    |> get_coordinate_field()
-  #  end
 
   defp get_nearest_points(end_point_list, start_point, points_quantity) do
     end_point_list
@@ -194,7 +119,6 @@ defmodule Aquebra.Logistic.DefineRoutes do
   end
 
   defp get_extra_distance_in_route(route) do
-    #    [startPoint, collectPoint, deliverPoint, endPoint] = route.route
     [startPoint, collectPoint, deliverPoint, endPoint] = [
       route.start_point,
       route.collect_point.entity_position,
