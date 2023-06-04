@@ -11,7 +11,7 @@ defmodule RoutePlanner do
       max_generations: 1000,
       mutation_rate: 0.01,
       crossover_rate: 0.8,
-      elite_percent: 0.8,
+      elite_percent: 0.1,
       collectPoints: collectPoints,
       deliverPoints: deliverPoints,
       start_point: start_point,
@@ -48,10 +48,11 @@ defmodule RoutePlanner do
   defp evolve_population(population, planner, generation) do
     population = fitness(population)
     [selected_parents, leftover_parents] = select_by_elite(population, planner)
-    children = crossover_population(selected_parents, planner)
+    children = crossover_population(leftover_parents, planner)
 
-    mutate_population(children ++ leftover_parents, planner)
-    |> fitness()
+    #mutate_population(children ++ leftover_parents, planner)
+    mutated_population = mutate_population(children, planner)
+    fitness(selected_parents ++ mutated_population)
   end
 
   defp fitness(population) do
