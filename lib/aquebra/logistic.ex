@@ -1168,19 +1168,24 @@ defmodule Aquebra.Logistic do
   end
 
   def get_stock_by_entity_id(entity_id) do
-    Repo.get_by!(Stock, donorEntityId: entity_id)
+    query =
+      from u in "stocks",
+        where: u.donorEntityId == ^entity_id,
+        select: [:id, :type, :quantity, :donorEntityId]
+
+    Repo.all(query)
   end
 
   alias Aquebra.Logistic.Match
 
   @doc """
   Returns the list of matches.
-
+  
   ## Examples
-
+  
       iex> list_matches()
       [%Match{}, ...]
-
+  
   """
   def list_matches do
     Repo.all(Match)
@@ -1188,31 +1193,31 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Gets a single match.
-
+  
   Raises `Ecto.NoResultsError` if the Match does not exist.
-
+  
   ## Examples
-
+  
       iex> get_match!(123)
       %Match{}
-
+  
       iex> get_match!(456)
       ** (Ecto.NoResultsError)
-
+  
   """
   def get_match!(id), do: Repo.get!(Match, id)
 
   @doc """
   Creates a match.
-
+  
   ## Examples
-
+  
       iex> create_match(%{field: value})
       {:ok, %Match{}}
-
+  
       iex> create_match(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def create_match(attrs \\ %{}) do
     %Match{}
@@ -1222,15 +1227,15 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Updates a match.
-
+  
   ## Examples
-
+  
       iex> update_match(match, %{field: new_value})
       {:ok, %Match{}}
-
+  
       iex> update_match(match, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def update_match(%Match{} = match, attrs) do
     match
@@ -1240,15 +1245,15 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Deletes a match.
-
+  
   ## Examples
-
+  
       iex> delete_match(match)
       {:ok, %Match{}}
-
+  
       iex> delete_match(match)
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def delete_match(%Match{} = match) do
     Repo.delete(match)
@@ -1256,27 +1261,49 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking match changes.
-
+  
   ## Examples
-
+  
       iex> change_match(match)
       %Ecto.Changeset{data: %Match{}}
-
+  
   """
   def change_match(%Match{} = match, attrs \\ %{}) do
     Match.changeset(match, attrs)
+  end
+
+  def get_match_by_volunteer_id(volunteer_id) do
+    query =
+      from m in "matches",
+        where: m.volunteer_id == ^volunteer_id,
+        select: [:id, :type, :quantity, :donor_entity_id, :receiving_entity_id, :volunteer_id, :stock_id]
+
+    Repo.all(query)
+  end
+
+  def get_match_by_donor_entity_id(donor_entity_id) do
+    query =
+      from m in "matches",
+        where: m.donor_entity_id == ^donor_entity_id,
+        select: [:id, :type, :quantity, :donor_entity_id, :receiving_entity_id, :volunteer_id, :stock_id]
+
+    Repo.all(query)
+  end
+
+  def get_match_by_receiving_entity_id(entity_id) do
+    Repo.get_by(Match, receiving_entity_id: entity_id)
   end
 
   alias Aquebra.Logistic.Donation
 
   @doc """
   Returns the list of donations.
-
+  
   ## Examples
-
+  
       iex> list_donations()
       [%Donation{}, ...]
-
+  
   """
   def list_donations do
     Repo.all(Donation)
@@ -1284,31 +1311,31 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Gets a single donation.
-
+  
   Raises `Ecto.NoResultsError` if the Donation does not exist.
-
+  
   ## Examples
-
+  
       iex> get_donation!(123)
       %Donation{}
-
+  
       iex> get_donation!(456)
       ** (Ecto.NoResultsError)
-
+  
   """
   def get_donation!(id), do: Repo.get!(Donation, id)
 
   @doc """
   Creates a donation.
-
+  
   ## Examples
-
+  
       iex> create_donation(%{field: value})
       {:ok, %Donation{}}
-
+  
       iex> create_donation(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def create_donation(attrs \\ %{}) do
     %Donation{}
@@ -1318,15 +1345,15 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Updates a donation.
-
+  
   ## Examples
-
+  
       iex> update_donation(donation, %{field: new_value})
       {:ok, %Donation{}}
-
+  
       iex> update_donation(donation, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def update_donation(%Donation{} = donation, attrs) do
     donation
@@ -1336,15 +1363,15 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Deletes a donation.
-
+  
   ## Examples
-
+  
       iex> delete_donation(donation)
       {:ok, %Donation{}}
-
+  
       iex> delete_donation(donation)
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def delete_donation(%Donation{} = donation) do
     Repo.delete(donation)
@@ -1352,12 +1379,12 @@ defmodule Aquebra.Logistic do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking donation changes.
-
+  
   ## Examples
-
+  
       iex> change_donation(donation)
       %Ecto.Changeset{data: %Donation{}}
-
+  
   """
   def change_donation(%Donation{} = donation, attrs \\ %{}) do
     Donation.changeset(donation, attrs)

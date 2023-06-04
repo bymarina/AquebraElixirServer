@@ -6,6 +6,7 @@ defmodule Aquebra.Logistic.NeededDonation do
     field :day, :string
     field :quantity, :integer
     field :type, :string
+    field :receivingEntityId, :id
 
     timestamps()
   end

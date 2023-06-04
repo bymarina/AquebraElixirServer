@@ -2,6 +2,9 @@ defmodule Aquebra.Logistic.Donation do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @required_fields [:quantity, :type, :donor_entity_id, :receiving_entity_id, :volunteer_id, :stock_id]
+  @optional_fields []
+
   schema "donations" do
     field :quantity, :float
     field :type, :string
@@ -16,7 +19,7 @@ defmodule Aquebra.Logistic.Donation do
   @doc false
   def changeset(donation, attrs) do
     donation
-    |> cast(attrs, [:type, :quantity])
-    |> validate_required([:type, :quantity])
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end

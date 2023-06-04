@@ -45,14 +45,12 @@ defmodule Aquebra.Logistic.Stock do
 
     if quantity_to_remove <= stock.quantity do
       new_quantity = stock.quantity - quantity_to_remove
-      |> IO.inspect
       stock_params = %{type: stock.type, quantity: new_quantity, donorEntityId: stock.donorEntityId}
       Logistic.update_stock(stock, stock_params)
-      else
-        Logger.info(
-          "Failed to update the donation id: #{donation_id} with the new quantity #{inspect(stock.quantity - quantity_to_remove)}"
-        )
+    else
+      Logger.info(
+        "Failed to update the donation id: #{donation_id} with the new quantity #{inspect(stock.quantity - quantity_to_remove)}"
+      )
     end
-
   end
 end

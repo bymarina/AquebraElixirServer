@@ -27,30 +27,28 @@ defmodule Aquebra.Logistic.DonationMatch do
   end
 
   def match(donor_entity_id, vehicle_capacity, volunteer_id) do
-#    Logistic.get_stock_by_entity_id(donor_entity_id)
-#    |> Enum.each(fn stock ->
-#      Logistic.get_needed_donation_by_type(stock.type)
-#      |> Enum.each(fn demand ->
-#        if demand do
-#          match_params = %{donorEntityDonationId: he, neededDonationId: demand.id, volunteerId: volunteer_id, donorEntityId: donor_entity_id, receivingEntityId: demand.receivingEntityId, quantity: stock.quantity}
-#          Logistic.create_donation_match(match_params)
-#        end
-#      end)
-#    end)
+    #    Logistic.get_stock_by_entity_id(donor_entity_id)
+    #    |> Enum.each(fn stock ->
+    #      Logistic.get_needed_donation_by_type(stock.type)
+    #      |> Enum.each(fn demand ->
+    #        if demand do
+    #          match_params = %{donorEntityDonationId: he, neededDonationId: demand.id, volunteerId: volunteer_id, donorEntityId: donor_entity_id, receivingEntityId: demand.receivingEntityId, quantity: stock.quantity}
+    #          Logistic.create_donation_match(match_params)
+    #        end
+    #      end)
+    #    end)
 
-#    |> IO.inspect
+    #    |> IO.inspect
 
     # Pega o estoque do ponto de coleta selecionado
     # Verifica o primeiro, cabe tudo no carro?
-      # Sim: cria o match, verifica se o próximo cabe inteiro
-      # Não: verifica se cabe alguma parte, cria o match
-        #Não: acabou
+    # Sim: cria o match, verifica se o próximo cabe inteiro
+    # Não: verifica se cabe alguma parte, cria o match
+    # Não: acabou
 
-        # para cada match, uma baixa no estoque
-
+    # para cada match, uma baixa no estoque
   end
 
   def find_receiving_entity_id(demand_id),
     do: Logistic.get_needed_donation!(demand_id).receivingEntityId
-
 end
