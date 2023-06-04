@@ -53,4 +53,7 @@ defmodule Aquebra.Logistic.Stock do
       )
     end
   end
+
+
+
 end
