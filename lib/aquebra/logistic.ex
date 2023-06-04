@@ -351,6 +351,14 @@ defmodule Aquebra.Logistic do
     Repo.delete(stock)
   end
 
+  def delete_all_stock() do
+    query =
+      from s in "stocks",
+      select: [:id]
+
+    Repo.delete_all(query)
+  end
+
   def change_stock(%Stock{} = stock, attrs \\ %{}) do
     Stock.changeset(stock, attrs)
   end
@@ -386,6 +394,14 @@ defmodule Aquebra.Logistic do
 
   def delete_match(%Match{} = match) do
     Repo.delete(match)
+  end
+
+  def delete_all_matches() do
+    query =
+      from s in "matches",
+      select: [:id]
+
+    Repo.delete_all(query)
   end
 
   def change_match(%Match{} = match, attrs \\ %{}) do

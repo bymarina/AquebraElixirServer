@@ -12,7 +12,7 @@ defmodule Aquebra.Logistic.DefineRoutes do
   alias Aquebra.Genetic.LocationCollect
   alias Aquebra.Genetic.LocationDeliver
 
-  def get_best_routes do
+  def get_best_routes() do
     Logistic.list_volunteers()
     |> Enum.each(fn volunteer ->
       {id, origin, destiny, collectPoints, deliverPoints} = assemble_volunteer_data(volunteer)

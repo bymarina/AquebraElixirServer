@@ -54,6 +54,8 @@ defmodule Aquebra.Logistic.Stock do
     end
   end
 
-
+  def clean_stock() do
+    Logistic.delete_all_stock()
+  end
 
 end

@@ -57,4 +57,9 @@ defmodule Aquebra.Logistic.Match do
   def delete_match(match_id) do
     Logistic.get_match!(match_id)
   end
+
+  def clean_matches() do
+    Logistic.delete_all_matches()
+  end
+
 end
