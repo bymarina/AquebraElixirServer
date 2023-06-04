@@ -60,7 +60,6 @@ defmodule Aquebra.Logistic do
     Repo.delete(user)
   end
 
-
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
@@ -72,7 +71,6 @@ defmodule Aquebra.Logistic do
   end
 
   def get_address!(id), do: Repo.get!(Address, id)
-
 
   def create_address(attrs \\ %{}) do
     %Address{}
@@ -86,7 +84,6 @@ defmodule Aquebra.Logistic do
     |> Repo.update()
   end
 
-
   def delete_address(%Address{} = address) do
     Repo.delete(address)
   end
@@ -96,7 +93,6 @@ defmodule Aquebra.Logistic do
   end
 
   alias Aquebra.Logistic.DonationProduct
-
 
   def list_donationproducts do
     Repo.all(DonationProduct)
@@ -120,10 +116,10 @@ defmodule Aquebra.Logistic do
     Repo.delete(donation_product)
   end
 
-
   def change_donation_product(%DonationProduct{} = donation_product, attrs \\ %{}) do
     DonationProduct.changeset(donation_product, attrs)
   end
+
   alias Aquebra.Logistic.NeededDonation
 
   def list_neededdonations do
@@ -354,7 +350,7 @@ defmodule Aquebra.Logistic do
   def delete_all_stock() do
     query =
       from s in "stocks",
-      select: [:id]
+        select: [:id]
 
     Repo.delete_all(query)
   end
@@ -399,7 +395,7 @@ defmodule Aquebra.Logistic do
   def delete_all_matches() do
     query =
       from s in "matches",
-      select: [:id]
+        select: [:id]
 
     Repo.delete_all(query)
   end
@@ -456,5 +452,293 @@ defmodule Aquebra.Logistic do
 
   def change_donation(%Donation{} = donation, attrs \\ %{}) do
     Donation.changeset(donation, attrs)
+  end
+
+  alias Aquebra.Logistic.Demand_evaluation
+
+  @doc """
+  Returns the list of demands_evaluation.
+
+  ## Examples
+
+      iex> list_demands_evaluation()
+      [%Demand_evaluation{}, ...]
+
+  """
+  def list_demands_evaluation do
+    Repo.all(Demand_evaluation)
+  end
+
+  @doc """
+  Gets a single demand_evaluation.
+
+  Raises `Ecto.NoResultsError` if the Demand evaluation does not exist.
+
+  ## Examples
+
+      iex> get_demand_evaluation!(123)
+      %Demand_evaluation{}
+
+      iex> get_demand_evaluation!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_demand_evaluation!(id), do: Repo.get!(Demand_evaluation, id)
+
+  @doc """
+  Creates a demand_evaluation.
+
+  ## Examples
+
+      iex> create_demand_evaluation(%{field: value})
+      {:ok, %Demand_evaluation{}}
+
+      iex> create_demand_evaluation(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_demand_evaluation(attrs \\ %{}) do
+    %Demand_evaluation{}
+    |> Demand_evaluation.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a demand_evaluation.
+
+  ## Examples
+
+      iex> update_demand_evaluation(demand_evaluation, %{field: new_value})
+      {:ok, %Demand_evaluation{}}
+
+      iex> update_demand_evaluation(demand_evaluation, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_demand_evaluation(%Demand_evaluation{} = demand_evaluation, attrs) do
+    demand_evaluation
+    |> Demand_evaluation.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a demand_evaluation.
+
+  ## Examples
+
+      iex> delete_demand_evaluation(demand_evaluation)
+      {:ok, %Demand_evaluation{}}
+
+      iex> delete_demand_evaluation(demand_evaluation)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_demand_evaluation(%Demand_evaluation{} = demand_evaluation) do
+    Repo.delete(demand_evaluation)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking demand_evaluation changes.
+
+  ## Examples
+
+      iex> change_demand_evaluation(demand_evaluation)
+      %Ecto.Changeset{data: %Demand_evaluation{}}
+
+  """
+  def change_demand_evaluation(%Demand_evaluation{} = demand_evaluation, attrs \\ %{}) do
+    Demand_evaluation.changeset(demand_evaluation, attrs)
+  end
+
+  alias Aquebra.Logistic.Donation_evaluation
+
+  @doc """
+  Returns the list of donations_evaluation.
+
+  ## Examples
+
+      iex> list_donations_evaluation()
+      [%Donation_evaluation{}, ...]
+
+  """
+  def list_donations_evaluation do
+    Repo.all(Donation_evaluation)
+  end
+
+  @doc """
+  Gets a single donation_evaluation.
+
+  Raises `Ecto.NoResultsError` if the Donation evaluation does not exist.
+
+  ## Examples
+
+      iex> get_donation_evaluation!(123)
+      %Donation_evaluation{}
+
+      iex> get_donation_evaluation!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_donation_evaluation!(id), do: Repo.get!(Donation_evaluation, id)
+
+  @doc """
+  Creates a donation_evaluation.
+
+  ## Examples
+
+      iex> create_donation_evaluation(%{field: value})
+      {:ok, %Donation_evaluation{}}
+
+      iex> create_donation_evaluation(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_donation_evaluation(attrs \\ %{}) do
+    %Donation_evaluation{}
+    |> Donation_evaluation.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a donation_evaluation.
+
+  ## Examples
+
+      iex> update_donation_evaluation(donation_evaluation, %{field: new_value})
+      {:ok, %Donation_evaluation{}}
+
+      iex> update_donation_evaluation(donation_evaluation, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_donation_evaluation(%Donation_evaluation{} = donation_evaluation, attrs) do
+    donation_evaluation
+    |> Donation_evaluation.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a donation_evaluation.
+
+  ## Examples
+
+      iex> delete_donation_evaluation(donation_evaluation)
+      {:ok, %Donation_evaluation{}}
+
+      iex> delete_donation_evaluation(donation_evaluation)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_donation_evaluation(%Donation_evaluation{} = donation_evaluation) do
+    Repo.delete(donation_evaluation)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking donation_evaluation changes.
+
+  ## Examples
+
+      iex> change_donation_evaluation(donation_evaluation)
+      %Ecto.Changeset{data: %Donation_evaluation{}}
+
+  """
+  def change_donation_evaluation(%Donation_evaluation{} = donation_evaluation, attrs \\ %{}) do
+    Donation_evaluation.changeset(donation_evaluation, attrs)
+  end
+
+  alias Aquebra.Logistic.Volunteer_evaluation
+
+  @doc """
+  Returns the list of volunteers_evaluation.
+
+  ## Examples
+
+      iex> list_volunteers_evaluation()
+      [%Volunteer_evaluation{}, ...]
+
+  """
+  def list_volunteers_evaluation do
+    Repo.all(Volunteer_evaluation)
+  end
+
+  @doc """
+  Gets a single volunteer_evaluation.
+
+  Raises `Ecto.NoResultsError` if the Volunteer evaluation does not exist.
+
+  ## Examples
+
+      iex> get_volunteer_evaluation!(123)
+      %Volunteer_evaluation{}
+
+      iex> get_volunteer_evaluation!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_volunteer_evaluation!(id), do: Repo.get!(Volunteer_evaluation, id)
+
+  @doc """
+  Creates a volunteer_evaluation.
+
+  ## Examples
+
+      iex> create_volunteer_evaluation(%{field: value})
+      {:ok, %Volunteer_evaluation{}}
+
+      iex> create_volunteer_evaluation(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_volunteer_evaluation(attrs \\ %{}) do
+    %Volunteer_evaluation{}
+    |> Volunteer_evaluation.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a volunteer_evaluation.
+
+  ## Examples
+
+      iex> update_volunteer_evaluation(volunteer_evaluation, %{field: new_value})
+      {:ok, %Volunteer_evaluation{}}
+
+      iex> update_volunteer_evaluation(volunteer_evaluation, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_volunteer_evaluation(%Volunteer_evaluation{} = volunteer_evaluation, attrs) do
+    volunteer_evaluation
+    |> Volunteer_evaluation.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a volunteer_evaluation.
+
+  ## Examples
+
+      iex> delete_volunteer_evaluation(volunteer_evaluation)
+      {:ok, %Volunteer_evaluation{}}
+
+      iex> delete_volunteer_evaluation(volunteer_evaluation)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_volunteer_evaluation(%Volunteer_evaluation{} = volunteer_evaluation) do
+    Repo.delete(volunteer_evaluation)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking volunteer_evaluation changes.
+
+  ## Examples
+
+      iex> change_volunteer_evaluation(volunteer_evaluation)
+      %Ecto.Changeset{data: %Volunteer_evaluation{}}
+
+  """
+  def change_volunteer_evaluation(%Volunteer_evaluation{} = volunteer_evaluation, attrs \\ %{}) do
+    Volunteer_evaluation.changeset(volunteer_evaluation, attrs)
   end
 end

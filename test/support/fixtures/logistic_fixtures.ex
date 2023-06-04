@@ -216,4 +216,53 @@ defmodule Aquebra.LogisticFixtures do
 
     donation
   end
+
+  @doc """
+  Generate a demand_evaluation.
+  """
+  def demand_evaluation_fixture(attrs \\ %{}) do
+    {:ok, demand_evaluation} =
+      attrs
+      |> Enum.into(%{
+        match_ids: "some match_ids",
+        received_donation: 120.5,
+        total_demand: 120.5
+      })
+      |> Aquebra.Logistic.create_demand_evaluation()
+
+    demand_evaluation
+  end
+
+  @doc """
+  Generate a donation_evaluation.
+  """
+  def donation_evaluation_fixture(attrs \\ %{}) do
+    {:ok, donation_evaluation} =
+      attrs
+      |> Enum.into(%{
+        match_ids: "some match_ids",
+        total_available: 120.5,
+        total_donated: 120.5
+      })
+      |> Aquebra.Logistic.create_donation_evaluation()
+
+    donation_evaluation
+  end
+
+  @doc """
+  Generate a volunteer_evaluation.
+  """
+  def volunteer_evaluation_fixture(attrs \\ %{}) do
+    {:ok, volunteer_evaluation} =
+      attrs
+      |> Enum.into(%{
+        extra_distance: 120.5,
+        match_ids: "some match_ids",
+        total_capacity: 120.5,
+        used_capacity: 120.5
+      })
+      |> Aquebra.Logistic.create_volunteer_evaluation()
+
+    volunteer_evaluation
+  end
 end

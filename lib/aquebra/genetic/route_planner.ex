@@ -50,7 +50,7 @@ defmodule RoutePlanner do
     [selected_parents, leftover_parents] = select_by_elite(population, planner)
     children = crossover_population(leftover_parents, planner)
 
-    #mutate_population(children ++ leftover_parents, planner)
+    # mutate_population(children ++ leftover_parents, planner)
     mutated_population = mutate_population(children, planner)
     fitness(selected_parents ++ mutated_population)
   end
@@ -71,9 +71,27 @@ defmodule RoutePlanner do
   end
 
   defp check_viable_match(gene) do
+    if check_if_same_type(gene) && check_if_there_is_quantity(gene) do
+      true
+    else
+      false
+    end
+  end
+
+  defp check_if_same_type(gene) do
     donation_type = gene.collect_point.donation_type
     demand_type = gene.deliver_point.receiving_type
     match?(^donation_type, demand_type)
+  end
+
+  defp check_if_there_is_quantity(gene) do
+    donation_quantity = gene.collect_point.donation_quantity
+
+    if donation_quantity > 0 do
+      true
+    else
+      false
+    end
   end
 
   #  defp fitness(population) do

@@ -5,7 +5,7 @@ defmodule Aquebra.Logistic.Match do
   alias Aquebra.Logistic.Stock
   alias Aquebra.Logistic.NeededDonation
 
-  @required_fields [:quantity, :type, :donor_entity_id, :receiving_entity_id, :volunteer_id, :stock_id]
+  @required_fields [:quantity, :type, :donor_entity_id, :receiving_entity_id, :volunteer_id, :stock_id, :url]
   @optional_fields []
 
   schema "matches" do
@@ -15,6 +15,7 @@ defmodule Aquebra.Logistic.Match do
     field :receiving_entity_id, :id
     field :volunteer_id, :id
     field :stock_id, :id
+    field :url, :string
 
     timestamps()
   end
@@ -46,6 +47,26 @@ defmodule Aquebra.Logistic.Match do
     end)
   end
 
+  def create_match_from_route(volunteer_id, match, quantity, url) do
+    type = match.collect_point.donation_type
+    donor_entity_id = match.collect_point.entity_id
+    receiving_entity_id = match.deliver_point.entity_id
+    stock_id = match.collect_point.stock_id
+
+    match_params = %{
+      type: type,
+      quantity: quantity,
+      donor_entity_id: donor_entity_id,
+      receiving_entity_id: receiving_entity_id,
+      volunteer_id: volunteer_id,
+      stock_id: stock_id,
+      url: url
+    }
+
+    Logistic.create_match(match_params)
+    Stock.remove_quantity_from_stock(stock_id, quantity)
+  end
+
   defp find_match_demand_by_type(stock) do
     Logistic.get_needed_donation_by_type(stock.type)
   end
@@ -61,5 +82,4 @@ defmodule Aquebra.Logistic.Match do
   def clean_matches() do
     Logistic.delete_all_matches()
   end
-
 end

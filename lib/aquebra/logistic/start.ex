@@ -4,8 +4,8 @@ defmodule Aquebra.Logistic.Start do
   alias Aquebra.Logistic.DefineRoutes
 
   def start_algorithm() do
-    prepare_stock_table()
     prepare_match_table()
+    prepare_stock_table()
     find_routes()
   end
 
@@ -21,5 +21,4 @@ defmodule Aquebra.Logistic.Start do
   defp find_routes() do
     DefineRoutes.get_best_routes()
   end
-
 end

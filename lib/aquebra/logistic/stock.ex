@@ -43,19 +43,20 @@ defmodule Aquebra.Logistic.Stock do
   def remove_quantity_from_stock(donation_id, quantity_to_remove) do
     stock = Logistic.get_stock!(donation_id)
 
-    if quantity_to_remove <= stock.quantity do
+    if quantity_to_remove < stock.quantity do
       new_quantity = stock.quantity - quantity_to_remove
       stock_params = %{type: stock.type, quantity: new_quantity, donorEntityId: stock.donorEntityId}
       Logistic.update_stock(stock, stock_params)
-    else
-      Logger.info(
-        "Failed to update the donation id: #{donation_id} with the new quantity #{inspect(stock.quantity - quantity_to_remove)}"
-      )
+    end
+
+    if quantity_to_remove >= stock.quantity do
+      new_quantity = 0
+      stock_params = %{type: stock.type, quantity: new_quantity, donorEntityId: stock.donorEntityId}
+      Logistic.update_stock(stock, stock_params)
     end
   end
 
   def clean_stock() do
     Logistic.delete_all_stock()
   end
-
 end
