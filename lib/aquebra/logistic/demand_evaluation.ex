@@ -57,7 +57,7 @@ defmodule Aquebra.Logistic.Demand_evaluation do
   defp get_match_id_list(entity_id) do
     Logistic.get_match_by_receiving_entity_id(entity_id)
     |> Enum.map(fn match ->
-      match.stock_id
+      match.id
     end)
     |> Enum.join(",")
   end

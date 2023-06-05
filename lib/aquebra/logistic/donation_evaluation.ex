@@ -56,7 +56,7 @@ defmodule Aquebra.Logistic.Donation_evaluation do
   defp get_match_ids(entity_id) do
     Logistic.get_match_by_donor_entity_id(entity_id)
     |> Enum.map(fn match ->
-      match.stock_id
+      match.id
     end)
     |> Enum.join(",")
   end

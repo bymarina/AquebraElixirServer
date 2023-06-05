@@ -57,7 +57,7 @@ defmodule Aquebra.Logistic.Volunteer_evaluation do
   defp get_match_ids(volunteer_id) do
     Logistic.get_match_by_volunteer_id(volunteer_id)
     |> Enum.map(fn match ->
-      match.stock_id
+      match.id
     end)
     |> Enum.join(",")
   end
