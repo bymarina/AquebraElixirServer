@@ -13,6 +13,13 @@ defmodule Aquebra.Logistic.Start do
     evaluate_results()
   end
 
+  def start_algorithm_one_volunteer(volunteer_id) do
+    prepare_match_table()
+    prepare_stock_table()
+    find_routes_specific_volunteer(volunteer_id)
+    evaluate_results()
+  end
+
   defp prepare_stock_table() do
     Stock.clean_stock()
     Stock.start_stock()
@@ -24,6 +31,10 @@ defmodule Aquebra.Logistic.Start do
 
   defp find_routes() do
     DefineRoutes.get_best_routes()
+  end
+
+  defp find_routes_specific_volunteer(volunteer_id) do
+    DefineRoutes.get_routes_for_specific_volunteer(volunteer_id)
   end
 
   defp evaluate_results() do

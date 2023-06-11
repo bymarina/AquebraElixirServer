@@ -19,9 +19,15 @@ defmodule Aquebra.Logistic.DefineRoutes do
     end)
   end
 
+  def get_routes_for_specific_volunteer(id) do
+    volunteer = Logistic.get_volunteer!(id)
+    get_route(volunteer)
+    verify_if_possible_to_get_more_routes(volunteer)
+  end
+
   defp log_route_results(bestRoute, id) do
     Logger.info(
-      "Volunteer: #{id}, Total distance: #{RouteCalculator.distance(bestRoute)}, Extra route distance: #{get_extra_distance_in_route(bestRoute)}\n Route: #{inspect(assemble_route_url(bestRoute))}}\n"
+      "Volunteer: #{id}, Total distance: #{RouteCalculator.distance(bestRoute)}, Extra route distance: #{get_extra_distance_in_route(bestRoute)}\n Donor Entity: #{inspect(bestRoute.deliver_point)}}\n Route: #{inspect(assemble_route_url(bestRoute))}}\n"
     )
   end
 
@@ -148,8 +154,9 @@ defmodule Aquebra.Logistic.DefineRoutes do
   defp get_deliver_points_from_match(volunteer_id) do
     Logistic.get_match_by_volunteer_id(volunteer_id)
     |> Enum.map(fn match ->
-      Logistic.get_needed_donation!(match.receiving_entity_id)
+      Logistic.get_needed_donation_by_entity_id(match.receiving_entity_id)
     end)
+    |> Enum.at(0)
     |> Enum.map(fn demand ->
       entity = Logistic.get_receiving_entity!(demand.receivingEntityId)
       coordinates = get_Address_Coordinates(entity.addressId)

@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :aquebra, Aquebra.Repo,
   username: "postgres",
-  password: "vtqXH7BSybjkz3",
+  password: "postgres",
   hostname: "localhost",
   database: "aquebra_dev",
   stacktrace: true,

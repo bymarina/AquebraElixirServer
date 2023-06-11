@@ -37,8 +37,12 @@ defmodule Aquebra.Logistic.Stock do
     end)
   end
 
-  def find_donation_entity_id(donation_id),
-    do: Logistic.get_entity_id_from_donor_entity_donation_by_donation_id(donation_id).donorEntityId
+#  def find_donation_entity_id(donation_id),
+#    do: Logistic.get_entity_id_from_donor_entity_donation_by_donation_id(donation_id).donorEntityId
+
+  def find_donation_entity_id(donation_id) do
+    Logistic.get_entity_id_from_donor_entity_donation_by_donation_id(donation_id).donorEntityId
+  end
 
   def remove_quantity_from_stock(donation_id, quantity_to_remove) do
     stock = Logistic.get_stock!(donation_id)
